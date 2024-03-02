@@ -2,6 +2,12 @@ import { useRef, useState } from 'react';
 
 import Phaser from 'phaser';
 import { PhaserGame } from './game/PhaserGame';
+import React from 'react';
+
+interface LogoPosition {
+  x: number;
+  y: number;
+}
 
 function App ()
 {
@@ -10,11 +16,11 @@ function App ()
     
     //  References to the PhaserGame component (game and scene are exposed)
     const phaserRef = useRef();
-    const [logoPosition, setLogoPosition] = useState({ x: 0, y: 0 });
+    const [logoPosition, setLogoPosition] = useState<LogoPosition>({ x: 0, y: 0 });
 
     const changeScene = () => {
 
-        const scene = phaserRef.current.scene;
+        const scene = phaserRef?.current?.scene;
 
         if (scene)
         {
@@ -24,12 +30,12 @@ function App ()
 
     const moveSprite = () => {
 
-        const scene = phaserRef.current.scene;
+        const scene = phaserRef?.current?.scene;
 
         if (scene && scene.scene.key === 'MainMenu')
         {
             // Get the update logo position
-            scene.moveLogo(({ x, y }) => {
+            scene.moveLogo(({ x, y } : LogoPosition) => {
 
                 setLogoPosition({ x, y });
 
@@ -39,7 +45,7 @@ function App ()
 
     const addSprite = () => {
 
-        const scene = phaserRef.current.scene;
+        const scene = phaserRef?.current?.scene;
 
         if (scene)
         {
@@ -64,7 +70,7 @@ function App ()
     }
 
     // Event emitted from the PhaserGame component
-    const currentScene = (scene) => {
+    const currentScene = (scene: { scene: { key: string; }; }) => {
         setCanMoveLogo(scene.scene.key !== 'MainMenu');
     }
 
